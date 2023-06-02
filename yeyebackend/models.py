@@ -2,13 +2,24 @@ from django.db import models
 
 # Create your models here.
 
-#Users
+#video
+class videoPlayer(models.Model):
+    title = models.CharField(max_length=100)
+    video=models.FileField() 
+
+    def __str__(self):
+        return self.title
+ 
+ 
+ #Users   
 class Users(models.Model):
     name= models.CharField(max_length=50, blank=True, null=True)
     image= models.ImageField(blank=True, null=True)
     gmail= models.EmailField()
-    phone= models.IntegerField()
+    phone= models.CharField(max_length=50, blank=True, null=True)
     complete= models.BooleanField(default=False)
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.gmail
@@ -18,6 +29,7 @@ class Products(models.Model):
     name= models.CharField(max_length=100)
     image= models.FileField()
     price= models.FloatField()
+    old_price =models.FloatField(blank=True, null=True)
     liked= models.ManyToManyField(Users,blank=True)
     description= models.TextField(blank=True, null=True)
     gender= models.CharField(max_length=50)
@@ -35,17 +47,19 @@ class Crop_pictures(models.Model):
 
 #Comments
 class Comments(models.Model):
-    product= models.ForeignKey(Products, on_delete=models.SET_NULL, null=True, blank=True)
-    user= models.ForeignKey(Users,on_delete=models.SET_NULL,null=True, blank=True)  
-    Comment= models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    product= models.ForeignKey(Products, on_delete=models.CASCADE, null=True, blank=True)
+    user= models.ForeignKey(Users,on_delete=models.CASCADE,null=True, blank=True)  
+    comment= models.TextField()
+    checkedlast = models.DateTimeField(auto_now_add = True)
     
-    def __str__(self) -> str:
+    def __str__(self):
         return self.product.name
 
 # Testimonials   
 class Testimonials(models.Model):
-    client= models.OneToOneField(Comments, on_delete=models.SET_NULL, null=True, blank=True)  
+    client_name= models.CharField( max_length=200, null=True, blank=True)
+    client_comment= models.TextField(null=True, blank=True) 
+    client_picture= models.ImageField(null=True, blank=True)
 
-    def __str__(self) -> str:
-        return self.client.user.name
+    def __str__(self):
+        return self.client_name
