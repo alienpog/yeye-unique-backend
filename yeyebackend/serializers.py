@@ -15,7 +15,7 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
     crop_images = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Products
-        fields = ["id","name","price","old_price", "image","description","crop_images"]
+        fields = ["id","name","price","old_price", "image","description_span","description","crop_images"]
 
     def get_crop_images(self, obj):
         images = Crop_pictures.objects.filter(product=obj)

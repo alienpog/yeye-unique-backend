@@ -72,7 +72,7 @@ def product_page(request):
         return render(request, 'index.html')
     return redirect('https://www.google.com')
 
-# puttin testimonal in the database
+# putting testimonal in the database
 def testimonial_page(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -93,6 +93,7 @@ def getting_all_customers(request):
         clients= Users.objects.all().order_by('-updated_at')
         return render(request, 'customers.html', {"clients":clients})
     return redirect('https://www.google.com')
+
 # specific data of the product
 @api_view(['GET'])
 def products_details(request, pk):
@@ -100,7 +101,10 @@ def products_details(request, pk):
         queryset= Products.objects.all()
         serializer = ProductDetailsSerializer(queryset, many=True)
         return Response(serializer.data)
-    person = Products.objects.get(pk=int(pk))
+    person = Products.objects.filter(pk=int(pk))
+    if not person.exists():
+        return Response({},status=404)
+    person=person.first()
     serializer = ProductDetailsSerializer(person, many=False)
     return Response(serializer.data)
 
@@ -125,10 +129,11 @@ def testimonials(request):
     serializer= TestimonialsSerializer(clients, many=True)
     return Response(serializer.data)
 
+# video player
 @api_view(['GET'])
 def videoplayer(request):
-    videos = videoPlayer.objects.first()
-    serializer = VideosSerializer(videos, many=False)
+    videos = videoPlayer.objects.all()
+    serializer = VideosSerializer(videos, many=True)
     return Response(serializer.data)
 
 # counting likes
@@ -194,13 +199,14 @@ def products_page(request, pk):
     paginator = CustomPagination()
     if pk == 'allproducts':
          product_qs = Products.objects.all()  
-    if pk == 'females':
+    elif pk == 'females':
         product_qs = Products.objects.filter(gender='female')            
-    if pk =='males':
+    elif pk =='males':
         product_qs = Products.objects.filter(gender='male')
-    if pk == 'kids':
+    elif pk == 'kids':
         product_qs = Products.objects.filter(gender='kid')    
-    
+    else:
+        return Response({}, status=404)
     paginated_qs= paginator.paginate_queryset(product_qs, request)
     serializer = ProductSerializer(paginated_qs, many=True)
     return paginator.get_paginated_response(serializer.data)
@@ -245,7 +251,6 @@ def getting_form(request):
     if user is None:
         return Response({}, status=200)
     user= user.first()
-    print("user>>>>", user)
     serializer = GetingUserSerializer(user, many=False)
     return Response(serializer.data, status=200)
 

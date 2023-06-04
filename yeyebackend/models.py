@@ -32,6 +32,7 @@ class Products(models.Model):
     old_price =models.FloatField(blank=True, null=True)
     liked= models.ManyToManyField(Users,blank=True)
     description= models.TextField(blank=True, null=True)
+    description_span =models.TextField(blank=True, null=True)
     gender= models.CharField(max_length=50)
     
     def __str__(self):
