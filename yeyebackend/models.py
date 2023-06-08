@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.template.defaultfilters import slugify 
 # Create your models here.
 
 #video
@@ -34,9 +34,29 @@ class Products(models.Model):
     description= models.TextField(blank=True, null=True)
     description_span =models.TextField(blank=True, null=True)
     gender= models.CharField(max_length=50)
-    
+    hot= models.BooleanField(default=False)
+    catalog= models.CharField(max_length=50, blank=True , null=True)
+    unique= models.BooleanField(default=False)
+    materials_type= models.CharField(max_length=200, blank= True , null=True)
+    Meta_Title = models.CharField(max_length=250, blank= True , null=True)
+    Meta_description = models.TextField(blank=True, null=True)
+    color= models.CharField(max_length=100, blank= True , null=True)
+    slug= models.SlugField(blank=True, null=True)
+    created_on= models.DateTimeField(auto_now_add=True)
+    updated_on= models.DateTimeField(auto_now= True)
+
     def __str__(self):
         return self.name
+    
+    def save(self,*args, **kwargs):
+        to_assign=slugify(self.name)
+
+        if Products.objects.filter(slug= to_assign).exists():
+            to_assign=to_assign+str(Products.objects.all().count())
+
+        self.slug=to_assign
+
+        super().save(*args, **kwargs)    
 
 #Crop_pictures
 class Crop_pictures(models.Model):

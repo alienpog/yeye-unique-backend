@@ -53,20 +53,30 @@ def product_page(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             try:
+    
                 name= request.POST.get('name')
                 priceold= request.POST.get('priceold')
                 pricenew= request.POST.get('pricenew')
                 description= request.POST.get('description')
+                description_span= request.POST.get('description_span')
                 Image= request.FILES['Image']
                 gender= request.POST.get('gender')
                 Crop_Images = request.FILES.getlist('Crop_Images')
-                print("images01>>>>>", Image)
-                product = Products.objects.create(name=name,price=pricenew,old_price=priceold,description=description,image=Image,gender=gender)
+                color= request.POST.get('color')
+                catalog= request.POST.get('catalog')
+                materials_type= request.POST.get('materials_type')
+                hot= request.POST.get('hot', False) == 'on'
+                unique= request.POST.get('unique',False) == 'on'
+                Meta_Title= request.POST.get('Meta_Title')
+                Meta_description= request.POST.get('Meta_description')
+                product = Products.objects.create(name=name,price=pricenew,old_price=priceold,description=description,
+                                                  description_span=description_span,image=Image,gender=gender,
+                                                  color=color, catalog=catalog,materials_type=materials_type, hot=hot,
+                                                   unique=unique, Meta_Title=Meta_Title, Meta_description=Meta_description)
                 product.save()
                 for image in Crop_Images:
                     crop_picture = Crop_pictures.objects.create(image=image, product=product)
                     crop_picture.save()
-                    print("images>>>>>", image)
             except:
                 print("not uploaded")     
         return render(request, 'index.html')
@@ -82,7 +92,6 @@ def testimonial_page(request):
                 Image= request.FILES['Image']
                 testimonial= Testimonials.objects.create(client_name=name, client_comment=comment, client_picture=Image)
                 testimonial.save()
-                print("images>>>>>", Image)
             except:
                     print("not uploaded") 
         return render(request, 'testimonial.html')
@@ -97,11 +106,7 @@ def getting_all_customers(request):
 # specific data of the product
 @api_view(['GET'])
 def products_details(request, pk):
-    if pk=="none":
-        queryset= Products.objects.all()
-        serializer = ProductDetailsSerializer(queryset, many=True)
-        return Response(serializer.data)
-    person = Products.objects.filter(pk=int(pk))
+    person = Products.objects.filter(slug=pk)
     if not person.exists():
         return Response({},status=404)
     person=person.first()
@@ -197,7 +202,11 @@ def post_comment(request, pk):
 @api_view(['GET'])
 def products_page(request, pk):
     paginator = CustomPagination()
-    if pk == 'allproducts':
+    if pk == "none":
+        slugs=Products.objects.all()
+        serializer = ProductDetailsSerializer(slugs, many=True)
+        return Response(serializer.data)
+    elif pk == 'allproducts':
          product_qs = Products.objects.all()  
     elif pk == 'females':
         product_qs = Products.objects.filter(gender='female')            
