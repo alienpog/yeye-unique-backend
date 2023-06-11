@@ -54,31 +54,52 @@ def product_page(request):
         if request.method == 'POST':
             try:
     
-                name= request.POST.get('name')
-                priceold= request.POST.get('priceold')
-                pricenew= request.POST.get('pricenew')
-                description= request.POST.get('description')
-                description_span= request.POST.get('description_span')
+                name= request.POST['name']
+                priceold= request.POST['priceold']
+                pricenew= request.POST['pricenew']
+                Currency= request.POST['Currency']
+                zero_price= request.POST['zero_price']
+                description= request.POST['description']
+                description_span= request.POST['description_span']
                 Image= request.FILES['Image']
-                gender= request.POST.get('gender')
+                gender= request.POST['gender']
                 Crop_Images = request.FILES.getlist('Crop_Images')
-                color= request.POST.get('color')
-                catalog= request.POST.get('catalog')
-                materials_type= request.POST.get('materials_type')
+                color= request.POST['color']
+                catalog= request.POST['catalog']
+                materials_type= request.POST['materials_type']
                 hot= request.POST.get('hot', False) == 'on'
                 unique= request.POST.get('unique',False) == 'on'
-                Meta_Title= request.POST.get('Meta_Title')
-                Meta_description= request.POST.get('Meta_description')
-                product = Products.objects.create(name=name,price=pricenew,old_price=priceold,description=description,
-                                                  description_span=description_span,image=Image,gender=gender,
-                                                  color=color, catalog=catalog,materials_type=materials_type, hot=hot,
-                                                   unique=unique, Meta_Title=Meta_Title, Meta_description=Meta_description)
+                Meta_Title= request.POST['Meta_Title']
+                Meta_description= request.POST['Meta_description']
+                # print("name>>>",name,
+                #      "priceold>>>>>",priceold,
+                #      "pricenew>>>",pricenew,
+                #      "Currency>>>>",Currency,
+                #      "zero_price>>>",zero_price,
+                #      "description>>>",description,
+                #      "description_span>>>>",description_span,
+                #      "Image>>>>>",Image,
+                #      "gender>>>>>",gender,
+                #      "Crop_Images>>>",Crop_Images,
+                #      "color>>>>",color,
+                #      "catalog>>>>>",catalog,
+                #      "materials_type>>>>",materials_type,
+                #      "hot>>>>",hot,
+                #      "unique>>>",unique,
+                #      "Meta_Title",Meta_Title,
+                #      "Meta_description",Meta_description)
+                product = Products.objects.create(name=name,image=Image,price=pricenew,old_price=priceold,
+                                                  Currency=Currency,zero_price=zero_price,description=description,
+                                                  description_span=description_span,gender=gender,hot=hot,catalog=catalog,
+                                                  unique=unique,materials_type=materials_type,Meta_Title=Meta_Title,
+                                                  Meta_description=Meta_description,color=color)
                 product.save()
                 for image in Crop_Images:
                     crop_picture = Crop_pictures.objects.create(image=image, product=product)
                     crop_picture.save()
+                    print("uploaded to the database")
             except:
-                print("not uploaded")     
+                print("not uploaded to the database")     
         return render(request, 'index.html')
     return redirect('https://www.google.com')
 
