@@ -1,1 +1,1 @@
-web: gunicorn 'yeyebackend.wsgi'
+web: gunicorn 'yeye.wsgi'
