@@ -228,13 +228,21 @@ def products_page(request, pk):
         serializer = ProductDetailsSerializer(slugs, many=True)
         return Response(serializer.data)
     elif pk == 'allproducts':
-         product_qs = Products.objects.all()  
+         product_qs = Products.objects.all().order_by("-created_on")  
     elif pk == 'females':
         product_qs = Products.objects.filter(gender='female')            
     elif pk =='males':
         product_qs = Products.objects.filter(gender='male')
     elif pk == 'kids':
-        product_qs = Products.objects.filter(gender='kid')    
+        product_qs = Products.objects.filter(gender='kid')
+    elif pk == 'men-shoes': 
+        product_qs = Products.objects.filter(gender='men-shoe') 
+    elif pk == 'men-caps':
+        product_qs = Products.objects.filter(gender='men-cap')
+    elif pk == 'jewelrys':
+         product_qs = Products.objects.filter(gender='jewelry') 
+    elif pk == 'women-bags':
+        product_qs = Products.objects.filter(gender='women-bag')                   
     else:
         return Response({}, status=404)
     paginated_qs= paginator.paginate_queryset(product_qs, request)
