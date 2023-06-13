@@ -50,7 +50,7 @@ class CustomPagination(PageNumberPagination):
 
 # puttin product in the database
 def product_page(request):
-    # if request.user.is_authenticated:
+    if request.user.is_authenticated:
         if request.method == 'POST':
             try:
     
@@ -101,11 +101,11 @@ def product_page(request):
             except:
                 print("not uploaded to the database")     
         return render(request, 'index.html')
-    # return redirect('https://www.google.com')
+    return redirect('https://www.google.com')
 
 # putting testimonal in the database
 def testimonial_page(request):
-    # if request.user.is_authenticated:
+    if request.user.is_authenticated:
         if request.method == 'POST':
             try:
                 name= request.POST.get('name')
@@ -116,7 +116,7 @@ def testimonial_page(request):
             except:
                     print("not uploaded") 
         return render(request, 'testimonial.html')
-    # return redirect('https://www.google.com')
+    return redirect('https://www.google.com')
 
 def getting_all_customers(request):
     if request.user.is_authenticated:
