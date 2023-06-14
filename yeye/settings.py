@@ -187,4 +187,4 @@ AWS_QUERYSTRING_AUTH = False
 # cors settings
 CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = ['https://*.mydomain.com','https://*.127.0.0.1'] 
+CSRF_TRUSTED_ORIGINS = ['https://*.mydomain.com','https://*.127.0.0.1','yeye-unique-backend-production.up.railway.app','https://yeye-unique-backend-production.up.railway.app/'] 
