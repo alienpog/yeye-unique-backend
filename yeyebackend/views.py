@@ -241,6 +241,8 @@ def products_page(request, pk):
         product_qs = Products.objects.filter(gender='men-cap')
     elif pk == 'jewelrys':
          product_qs = Products.objects.filter(gender='jewelry') 
+    elif pk == 'watches': 
+         product_qs = Products.objects.filter(gender='watches')     
     elif pk == 'women-bags':
         product_qs = Products.objects.filter(gender='women-bag')                   
     else:
@@ -307,7 +309,6 @@ def posting_data(request):
         user.phone= phone
         user.complete= True
         user.save()
-        print("save01")
         return Response("It has been Summited", status=200)
     user=Users.objects.create(name=name,phone=phone,gmail=email,complete=True)
     user.save()
