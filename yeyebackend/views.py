@@ -138,8 +138,8 @@ def products_details(request, pk):
 @api_view(['GET'])
 def comments(request, pk):
     comments = Comments.objects.filter(product=pk).order_by('-checkedlast')
-    if not comments.exists():
-        return Response({}, status = 200)
+    # if not comments.exists():
+    #     return Response({}, status = 200)
     serializer = CommentsSerializer(comments, many=True)
     return Response(serializer.data)
 
