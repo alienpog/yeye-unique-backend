@@ -39,6 +39,7 @@ class CommentsSerializer(serializers.Serializer):
     
     def get_image(self, obj):
         return obj.user.image.url
+    
     def get_checkedlast(self, obj):
         return obj.checkedlast
     
