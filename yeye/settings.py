@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
-
+# '*','0.0.0.0'
 ALLOWED_HOSTS = ['*','0.0.0.0']
 
 
@@ -89,23 +89,23 @@ WSGI_APPLICATION = "yeye.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME':config("NAME"),
-        'USER':config("USER"),
-        'PASSWORD':config("PASSWORD"),
-        'HOST':config("HOST"),
-        'PORT':config("PORT"),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME':config("NAME"),
+#         'USER':config("USER"),
+#         'PASSWORD':config("PASSWORD"),
+#         'HOST':config("HOST"),
+#         'PORT':config("PORT"),
+#     }
+# }
 
 
 # Password validation
@@ -124,8 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
-]
-
+] 
 REST_FRAMEWORK = REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
     'rest_framework.renderers.JSONRenderer',
@@ -152,7 +151,8 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+    pass
+   # STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
     STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
@@ -191,4 +191,5 @@ AWS_QUERYSTRING_AUTH = False
 # cors settings
 CORS_ORIGIN_ALLOW_ALL = True
 
+# 'https://yeye-unique-backend-production.up.railway.app'
 CSRF_TRUSTED_ORIGINS = ['https://yeye-unique-backend-production.up.railway.app'] 

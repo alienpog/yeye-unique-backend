@@ -45,10 +45,28 @@
       <input type="file" id="Image" name="Image" />
 
       <label for="Crop_Images">Crop_Images:</label>
-      <input type="file" id="Crop_Images" name="Crop_Images" multiple />
+      <input
+        type="file"
+        id="Crop_Images"
+        name="Crop_Images"
+        multiple
+        required />
 
       <label for="color">Color:</label>
       <input type="text" id="color" name="color" />
+
+      <label for="naira_price">Naira_price:</label>
+      <input type="text" id="naira_price" name="naira_price" required />
+
+      <label for="dollar_price">Dollar_price:</label>
+      <input type="text" id="dollar_price" name="dollar_price" required />
+
+      <label for="old_dollar_price">Old_dollar_price:</label>
+      <input
+        type="text"
+        id="old_dollar_price"
+        name="old_dollar_price"
+        required />
 
       <label for="catalog">Catalog:</label>
       <input type="text" id="catalog" name="catalog" required />
@@ -63,8 +81,11 @@
       <label for="hot">Hot:</label>
       <input type="checkbox" name="hot" />
 
-      <label for="unique">Unique:</label>
-      <input type="checkbox" name="unique" />
+      <label for="special">Special:</label>
+      <input type="checkbox" name="special" />
+
+      <label for="measurement">Measurement:</label>
+      <input type="checkbox" name="measurement" />
 
       <label for="Meta_Title">Meta_Title:</label>
       <textarea

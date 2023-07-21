@@ -63,14 +63,19 @@ def product_page(request):
                 description_span= request.POST['description_span']
                 Image= request.FILES['Image']
                 gender= request.POST['gender']
+                old_dollar_price= request.POST['old_dollar_price']
                 Crop_Images = request.FILES.getlist('Crop_Images')
                 color= request.POST['color']
                 catalog= request.POST['catalog']
                 materials_type= request.POST['materials_type']
                 hot= request.POST.get('hot', False) == 'on'
-                unique= request.POST.get('unique',False) == 'on'
+                special= request.POST.get('special',False) == 'on'
+                measurement= request.POST.get('measurement', False) == 'on'    
                 Meta_Title= request.POST['Meta_Title']
                 Meta_description= request.POST['Meta_description']
+                dollar_price= request.POST['dollar_price']
+                naira_price= request.POST['naira_price']
+                
                 # print("name>>>",name,
                 #      "priceold>>>>>",priceold,
                 #      "pricenew>>>",pricenew,
@@ -88,12 +93,12 @@ def product_page(request):
                 #      "unique>>>",unique,
                 #      "Meta_Title",Meta_Title,
                 #      "Meta_description",Meta_description)
-                product = Products.objects.create(name=name,image=Image,price=pricenew,old_price=priceold,
-                                                  Currency=Currency,zero_price=zero_price,description=description,
-                                                  description_span=description_span,gender=gender,hot=hot,catalog=catalog,
-                                                  unique=unique,materials_type=materials_type,Meta_Title=Meta_Title,
+                product = Products.objects.create(name=name,image=Image,price=pricenew,old_price=priceold,dollar_price=dollar_price,
+                                                  naira_price=naira_price,currency=Currency,zero_price=zero_price,description=description,
+                                                  measurement=measurement,description_span=description_span,gender=gender,hot=hot,catalog=catalog,
+                                                  old_dollar_price=old_dollar_price,special=special,materials_type=materials_type,Meta_Title=Meta_Title,
                                                   Meta_description=Meta_description,color=color)
-                product.save()
+                product.save()      
                 for image in Crop_Images:
                     crop_picture = Crop_pictures.objects.create(image=image, product=product)
                     crop_picture.save()
@@ -200,8 +205,9 @@ def productlikes(request, pk):
     obj = product.first()
     email= data.get('email')
     user =Users.objects.filter(gmail=email)
-    if user is None:
-        return Response({"likes": False}, status=200)
+    # b4: if user is None also don't forget {"likes": False}:
+    if not user.exists():
+        return Response( False, status=200)
     if user.first() in obj.liked.all():
         return Response( True, status=200)
     return Response( False, status=200)
