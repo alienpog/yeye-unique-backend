@@ -1,5 +1,5 @@
 from django.contrib import admin
-from.models import *
+from .models import *
 
 # Register your models here.
 
@@ -12,3 +12,10 @@ admin.site.register(videoPlayer)
 admin.site.register(ProductItems)
 admin.site.register(FreeGift)
 admin.site.register(UserClosed)
+admin.site.register(UserItemsActions)
+admin.site.register(UserItemslists)
+admin.site.register(Coupons)
+admin.site.register(UserCoupons)
+admin.site.register(CouponState)
+admin.site.register(PriceState)
+admin.site.register(UserCartPrice)
